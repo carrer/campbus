@@ -6,16 +6,19 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/FullscreenTheme" >
         <activity
-            android:name="com.carr3r.campbus"
-            android:label="@string/app_name"
+            android:name=".activity.SearchByStreet"
             android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.StreetInfo"
+            android:theme="@style/AppTheme" >
         </activity>
     </application>
 
