@@ -20,6 +20,10 @@
             android:name=".activity.StreetInfo"
             android:theme="@style/AppTheme" >
         </activity>
+        <activity
+            android:name=".activity.LineInfo"
+            android:theme="@style/AppTheme" >
+        </activity>
     </application>
 
 </manifest>

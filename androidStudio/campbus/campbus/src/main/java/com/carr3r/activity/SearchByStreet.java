@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.carr3r.StreetItem;
 import com.carr3r.R;
 import com.carr3r.StreetItemAdapter;
+import com.carr3r.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,21 +51,21 @@ public class SearchByStreet extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         try {
-            jsonParadas =  new JSONObject(loadJSONFromAsset());
+            jsonParadas =  new JSONObject(Utils.loadJSONFromAsset(this, "paradas.json"));
         } catch (JSONException e) {
             jsonParadas = null;
         }
 
         setContentView(R.layout.search_by_street);
 
-        textProcura = (EditText) findViewById(R.id.textProcura);
-        listParadas = (ListView) findViewById(R.id.listParadas);
+        textProcura = (EditText) findViewById(R.id.search_by_street_street_name);
+        listParadas = (ListView) findViewById(R.id.search_by_street_street_list);
 
         listParadas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // When clicked, show a toast with the TextView text or do whatever you need.
                 //Toast.makeText(getApplicationContext(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
-                String streetName = ((TextView) view.findViewById(R.id.label)).getText().toString();
+                String streetName = ((TextView) view.findViewById(R.id.street_row_street_name)).getText().toString();
                 Intent streetInfo = new Intent(SearchByStreet.this, StreetInfo.class);
                 streetInfo.putExtra("STREET", streetName);
                 streetInfo.putExtra("LINES", streetLines.get(streetName));
@@ -153,7 +154,7 @@ public class SearchByStreet extends Activity {
             super.onPostExecute(result);
 
             StreetItemAdapter adapter = new StreetItemAdapter(getApplicationContext(), new ArrayList<StreetItem>());
-            ((ListView) findViewById(R.id.listParadas)).setAdapter(adapter);
+            listParadas.setAdapter(adapter);
 
             Iterator it = result.iterator();
             while(it.hasNext())
@@ -167,28 +168,4 @@ public class SearchByStreet extends Activity {
 
     }
 
-    public String loadJSONFromAsset() {
-        String json = null;
-        try {
-
-            InputStream is = getAssets().open("db/paradas.json");
-
-            int size = is.available();
-
-            byte[] buffer = new byte[size];
-
-            is.read(buffer);
-
-            is.close();
-
-            json = new String(buffer, "UTF-8");
-
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-
-    }
 }

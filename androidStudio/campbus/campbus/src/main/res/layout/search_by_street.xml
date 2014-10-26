@@ -5,14 +5,30 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <EditText android:id="@+id/textProcura"
+    <LinearLayout
+        android:background="#EBEBEB"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:padding="10dp"
-        android:textColor="@android:color/black"
-        android:background="#EBEBEB"
-        android:hint="Nome da rua ou avenida"/>
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_margin="10dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:src="@drawable/search"
+            >
+        </ImageView>
+
+        <EditText android:id="@+id/search_by_street_street_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:padding="10dp"
+            android:textColor="@android:color/black"
+            android:hint="LOCALIDADE"/>
+
+    </LinearLayout>
 
     <View
         android:layout_width="fill_parent"
@@ -21,7 +37,7 @@
 
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/listParadas"
+        android:id="@+id/search_by_street_street_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"/>

@@ -17,7 +17,8 @@ public class StreetItemAdapter extends ArrayAdapter<StreetItem> {
 
     private final Context context;
     private final ArrayList<StreetItem> itemsArrayList;
-    private int[] colors = new int[] {Color.rgb (175, 203, 219), Color.WHITE };
+    private int[] BackgroundColors = new int[] {Color.rgb (33, 70, 92), Color.WHITE };
+    private int[] ForegroundColors = new int[] {Color.WHITE, Color.BLACK };
 
     public StreetItemAdapter(Context context, ArrayList<StreetItem> itemsArrayList) {
 
@@ -37,13 +38,14 @@ public class StreetItemAdapter extends ArrayAdapter<StreetItem> {
         View rowView = inflater.inflate(R.layout.street_row, parent, false);
 
         // 3. Get the two text view from the rowView
-        TextView labelView = (TextView) rowView.findViewById(R.id.label);
+        TextView labelView = (TextView) rowView.findViewById(R.id.street_row_street_name);
 
         // 4. Set the text for textView
         labelView.setText(itemsArrayList.get(position).getTitle());
 
-        int colorPos = position % colors.length;
-        rowView.setBackgroundColor(colors[colorPos]);
+        int colorPos = position % 2;
+        rowView.setBackgroundColor(BackgroundColors[colorPos]);
+        labelView.setTextColor(ForegroundColors[colorPos]);
 
         // 5. retrn rowView
         return rowView;

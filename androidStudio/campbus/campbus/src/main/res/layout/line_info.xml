@@ -1,0 +1,203 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/white"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/white"
+    android:id="@+id/line_info_view"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#21465C">
+
+        <ImageView
+            android:layout_margin="10dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="top"
+            android:src="@drawable/bus_stop_inverted"
+            >
+        </ImageView>
+
+        <TextView android:id="@+id/line_info_line_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:padding="10dp"
+            android:textColor="@android:color/white"/>
+
+    </LinearLayout>
+
+    <TextView android:id="@+id/line_info_line_name"
+        android:background="#21465C"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:gravity="center"
+        android:textColor="@android:color/white"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/black">
+
+        <ImageView
+            android:layout_margin="5dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:src="@drawable/left_arrow_inverted"
+            >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/line_info_board1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:padding="5dp"
+            android:textColor="@android:color/white">
+        </TextView>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/line_info_weekday1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:padding="5dp"
+        android:textColor="@android:color/black"
+        android:text="Dias úteis"
+        android:background="@color/light_yellow">
+    </TextView>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="#000000" />
+
+    <TextView
+        android:id="@+id/line_info_saturday1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:padding="5dp"
+        android:textColor="@android:color/black"
+        android:text="Sábados"
+        android:background="@color/light_yellow">
+    </TextView>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="#000000" />
+
+    <TextView
+        android:id="@+id/line_info_sunday1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:padding="5dp"
+        android:textColor="@android:color/black"
+        android:text="Domingos e feriados"
+        android:background="@color/light_yellow">
+    </TextView>
+
+    <LinearLayout
+        android:id="@+id/line_info_way1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/black">
+
+        <ImageView
+            android:layout_margin="5dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:src="@drawable/left_arrow_inverted"
+            android:rotation="180"
+            >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/line_row_board2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:padding="5dp"
+            android:textColor="@android:color/white">
+        </TextView>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/line_info_weekday2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:padding="5dp"
+        android:textColor="@android:color/black"
+        android:text="Dias úteis"
+        android:background="@color/light_yellow">
+    </TextView>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="#000000" />
+
+    <TextView
+        android:id="@+id/line_info_saturday2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:padding="5dp"
+        android:textColor="@android:color/black"
+        android:text="Sábados"
+        android:background="@color/light_yellow">
+    </TextView>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="#000000" />
+
+    <TextView
+        android:id="@+id/line_info_sunday2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:padding="5dp"
+        android:textColor="@android:color/black"
+        android:text="Domingos e feriados"
+        android:background="@color/light_yellow">
+    </TextView>
+
+    <LinearLayout
+        android:id="@+id/line_info_way2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"/>
+
+
+</LinearLayout>
+
+</ScrollView>

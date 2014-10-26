@@ -37,14 +37,17 @@ public class LineItemAdapter extends ArrayAdapter<LineItem> {
         View rowView = inflater.inflate(R.layout.line_row, parent, false);
 
         // 3. Get the two text view from the rowView
-        TextView numberView = (TextView) rowView.findViewById(R.id.lblNumero);
+        TextView nameView = (TextView) rowView.findViewById(R.id.line_row_line_name);
+        TextView numberView = (TextView) rowView.findViewById(R.id.line_row_line_number);
+        TextView board1View = (TextView) rowView.findViewById(R.id.line_row_board1);
+        TextView board2View = (TextView) rowView.findViewById(R.id.line_row_board2);
 
-        TextView nameView = (TextView) rowView.findViewById(R.id.lblNome);
-
-        numberView.setText(itemsArrayList.get(position).getNumber());
         nameView.setText(itemsArrayList.get(position).getTitle());
+        numberView.setText(itemsArrayList.get(position).getNumber());
+        board1View.setText(itemsArrayList.get(position).getBoards()[0]);
+        board2View.setText(itemsArrayList.get(position).getBoards()[1]);
 
-        int colorPos = position % colors.length;
+        int colorPos = 1;//position % colors.length;
         rowView.setBackgroundColor(colors[colorPos]);
 
         // 5. retrn rowView

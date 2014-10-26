@@ -4,55 +4,99 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content">
 
+    <TextView
+        android:background="@android:color/black"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp" />
+
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        >
+
+        <ImageView
+            android:layout_margin="5dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/bus_stop"
+            >
+        </ImageView>
 
         <TextView
-            android:layout_width="10mm"
+            android:id="@+id/line_row_line_number"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="40sp"
             android:padding="5dp"
-            android:textColor="@android:color/black"
-            android:text="Nro: ">
-        </TextView>
-
-        <TextView
-            android:id="@+id/lblNumero"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:padding="5dp"
+            android:gravity="center"
             android:textColor="@android:color/black">
         </TextView>
-
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/line_row_line_name"
+        android:background="@android:color/darker_gray"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:padding="5dp"
+        android:gravity="center"
+        android:textColor="@android:color/black">
+    </TextView>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="10mm"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:padding="5dp"
-            android:textColor="@android:color/black"
-            android:text="Nome: ">
-        </TextView>
+        <ImageView
+            android:layout_margin="5dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:src="@drawable/left_arrow"
+            >
+        </ImageView>
 
         <TextView
-            android:id="@+id/lblNome"
+            android:id="@+id/line_row_board1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:padding="5dp"
             android:textColor="@android:color/black">
         </TextView>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_margin="5dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:src="@drawable/left_arrow"
+            android:rotation="180"
+            >
+        </ImageView>
+
+        <TextView
+                android:id="@+id/line_row_board2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:padding="5dp"
+                android:textColor="@android:color/black">
+            </TextView>
 
     </LinearLayout>
-
-
+    <TextView
+        android:background="@android:color/black"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp" />
 </LinearLayout>
