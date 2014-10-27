@@ -39,9 +39,9 @@ import java.util.Map;
 public class SearchByStreet extends Activity {
 
 
-    protected EditText textProcura;
-    protected ListView listParadas;
-    protected JSONObject jsonParadas;
+    protected EditText txtSearch;
+    protected ListView listStreets;
+    protected JSONObject jsonStreets;
     protected Map<String, String> streetLines = new HashMap<String, String>();
 
     @Override
@@ -51,17 +51,17 @@ public class SearchByStreet extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         try {
-            jsonParadas =  new JSONObject(Utils.loadJSONFromAsset(this, "paradas.json"));
+            jsonStreets =  new JSONObject(Utils.loadJSONFromAsset(this, "paradas.json"));
         } catch (JSONException e) {
-            jsonParadas = null;
+            jsonStreets = null;
         }
 
         setContentView(R.layout.search_by_street);
 
-        textProcura = (EditText) findViewById(R.id.search_by_street_street_name);
-        listParadas = (ListView) findViewById(R.id.search_by_street_street_list);
+        txtSearch = (EditText) findViewById(R.id.search_by_street_street_name);
+        listStreets = (ListView) findViewById(R.id.search_by_street_street_list);
 
-        listParadas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listStreets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // When clicked, show a toast with the TextView text or do whatever you need.
                 //Toast.makeText(getApplicationContext(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
@@ -77,7 +77,7 @@ public class SearchByStreet extends Activity {
             }
         });
 
-        textProcura.addTextChangedListener(new TextWatcher(){
+        txtSearch.addTextChangedListener(new TextWatcher(){
             public void afterTextChanged(Editable s) {}
             public void beforeTextChanged(CharSequence s, int start, int count, int after){}
             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -92,6 +92,11 @@ public class SearchByStreet extends Activity {
                 }
             }
         });
+    }
+
+    public void onBackPressed() {
+        super.finish();
+        overridePendingTransition  (R.anim.slide_stay, R.anim.right_slide_out);
     }
 
     class SearchParada extends AsyncTask<String, Void, List<String>> {
@@ -111,23 +116,23 @@ public class SearchByStreet extends Activity {
         @Override
         protected List<String> doInBackground(String... params)
         {
-            String criterio = params[0];
-            criterio = Normalizer.normalize(criterio, Normalizer.Form.NFD);
-            criterio = criterio.replaceAll("[^\\p{ASCII}]", "").toUpperCase();
+            String criteria = params[0];
+            criteria = Normalizer.normalize(criteria, Normalizer.Form.NFD);
+            criteria = criteria.replaceAll("[^\\p{ASCII}]", "").toUpperCase();
 
-            Log.i("carr3r", criterio);
-            String[] termos = criterio.split("\\s+");
+            Log.i("carr3r", criteria);
+            String[] terms = criteria.split("\\s+");
 
             List<String> out = new ArrayList<String>();
 
-            Iterator it = jsonParadas.keys();
+            Iterator it = jsonStreets.keys();
             streetLines.clear();
             while(it.hasNext())
             {
                 String key = (String) it.next();
 
                 try {
-                    JSONArray item = jsonParadas.getJSONArray(key);
+                    JSONArray item = jsonStreets.getJSONArray(key);
                     streetLines.put(key, item.toString());
                     //Log.i("carr3r",item.toString());
 
@@ -135,13 +140,13 @@ public class SearchByStreet extends Activity {
                     e.printStackTrace();
                 }
 
-                boolean encontrado = false;
+                boolean found= false;
 
-                for(int i=0; i<termos.length && !encontrado;i++)
-                    if (termos[i].length()>=3 && key.contains(termos[i]))
-                        encontrado=true;
+                for(int i=0; i<terms.length && !found;i++)
+                    if (terms[i].length()>=3 && key.contains(terms[i]))
+                        found=true;
 
-                if (encontrado)
+                if (found)
                     out.add(key);
             }
 
@@ -154,7 +159,7 @@ public class SearchByStreet extends Activity {
             super.onPostExecute(result);
 
             StreetItemAdapter adapter = new StreetItemAdapter(getApplicationContext(), new ArrayList<StreetItem>());
-            listParadas.setAdapter(adapter);
+            listStreets.setAdapter(adapter);
 
             Iterator it = result.iterator();
             while(it.hasNext())
