@@ -12,11 +12,16 @@ import java.util.ArrayList;
 
 /**
  * Created by carrer on 10/23/14.
+ * Extensor do ArrayAdapter para customização de ListViews (layout definido em street_row.xml)
  */
 public class StreetItemAdapter extends ArrayAdapter<StreetItem> {
 
     private final Context context;
     private final ArrayList<StreetItem> itemsArrayList;
+
+    /*
+        Para coloração diferenciada de linhas ímpares e pares
+     */
     private int[] BackgroundColors = new int[] {Color.rgb (33, 70, 92), Color.WHITE };
     private int[] ForegroundColors = new int[] {Color.WHITE, Color.BLACK };
 
@@ -31,23 +36,17 @@ public class StreetItemAdapter extends ArrayAdapter<StreetItem> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        // 1. Create inflater
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        // 2. Get rowView from inflater
         View rowView = inflater.inflate(R.layout.street_row, parent, false);
 
-        // 3. Get the two text view from the rowView
         TextView labelView = (TextView) rowView.findViewById(R.id.street_row_street_name);
-
-        // 4. Set the text for textView
         labelView.setText(itemsArrayList.get(position).getTitle());
 
         int colorPos = position % 2;
         rowView.setBackgroundColor(BackgroundColors[colorPos]);
         labelView.setTextColor(ForegroundColors[colorPos]);
 
-        // 5. retrn rowView
         return rowView;
     }
 }

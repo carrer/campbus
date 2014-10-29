@@ -1,6 +1,5 @@
 package com.carr3r.activity;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -9,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,17 +16,18 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.carr3r.Definitions;
 import com.carr3r.StreetItem;
 import com.carr3r.R;
 import com.carr3r.StreetItemAdapter;
 import com.carr3r.Utils;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +35,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Created by carrer on 10/23/14.
+ * Activity que lista as linhas de ônibus através do seu itinerário. (ou, em outras palavras,
+ * lista todas as linhas que atendem uma localidade)
+ */
 public class SearchByStreet extends Activity {
 
 
@@ -47,6 +51,9 @@ public class SearchByStreet extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /*
+            Remove a barra de título e expanse o activity em fullscreen
+         */
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -63,15 +70,12 @@ public class SearchByStreet extends Activity {
 
         listStreets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // When clicked, show a toast with the TextView text or do whatever you need.
-                //Toast.makeText(getApplicationContext(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
+
                 String streetName = ((TextView) view.findViewById(R.id.street_row_street_name)).getText().toString();
                 Intent streetInfo = new Intent(SearchByStreet.this, StreetInfo.class);
                 streetInfo.putExtra("STREET", streetName);
                 streetInfo.putExtra("LINES", streetLines.get(streetName));
                 startActivity(streetInfo);
-                Log.d("carr3r", streetName);
-                Log.d("carr3r", streetLines.get(streetName));
                 overridePendingTransition(R.anim.right_slide_in, R.anim.slide_stay);
 
             }
@@ -80,7 +84,7 @@ public class SearchByStreet extends Activity {
         txtSearch.addTextChangedListener(new TextWatcher(){
             public void afterTextChanged(Editable s) {}
             public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+
             public void onTextChanged(CharSequence s, int start, int before, int count){
 
                 if (s.toString().trim().length()>=3)
@@ -92,6 +96,20 @@ public class SearchByStreet extends Activity {
                 }
             }
         });
+
+        // advertising pra pagar minha cerveja ;)
+        AdView adView = (AdView) this.findViewById(R.id.search_by_street_adview);
+        AdRequest adRequest;
+        if ( Definitions.DEBUG )
+            adRequest = new AdRequest.Builder()
+                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)// This is for emulators
+                    .addTestDevice("2EAB96D84FE62876379A9C030AA6A0AC") // Nexus 5
+                    .build();
+        else
+            adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+
+
     }
 
     public void onBackPressed() {
@@ -112,7 +130,6 @@ public class SearchByStreet extends Activity {
 
         }
 
-        @TargetApi(Build.VERSION_CODES.GINGERBREAD)
         @Override
         protected List<String> doInBackground(String... params)
         {
@@ -120,7 +137,6 @@ public class SearchByStreet extends Activity {
             criteria = Normalizer.normalize(criteria, Normalizer.Form.NFD);
             criteria = criteria.replaceAll("[^\\p{ASCII}]", "").toUpperCase();
 
-            Log.i("carr3r", criteria);
             String[] terms = criteria.split("\\s+");
 
             List<String> out = new ArrayList<String>();
@@ -134,7 +150,6 @@ public class SearchByStreet extends Activity {
                 try {
                     JSONArray item = jsonStreets.getJSONArray(key);
                     streetLines.put(key, item.toString());
-                    //Log.i("carr3r",item.toString());
 
                 } catch (JSONException e) {
                     e.printStackTrace();

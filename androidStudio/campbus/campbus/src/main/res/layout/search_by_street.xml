@@ -1,45 +1,64 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
     <LinearLayout
-        android:background="#EBEBEB"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginBottom="6mm">
 
-        <ImageView
-            android:layout_margin="10dp"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:src="@drawable/search"
-            >
-        </ImageView>
-
-        <EditText android:id="@+id/search_by_street_street_name"
+        <LinearLayout
+            android:background="#EBEBEB"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:padding="10dp"
-            android:textColor="@android:color/black"
-            android:hint="LOCALIDADE"/>
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_margin="10dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@drawable/search"
+                >
+            </ImageView>
+
+            <EditText android:id="@+id/search_by_street_street_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:padding="10dp"
+                android:textColor="@android:color/black"
+                android:hint="LOCALIDADE"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="#000000" />
+
+        <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/search_by_street_street_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"/>
 
     </LinearLayout>
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dip"
-        android:background="#000000" />
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/search_by_street_adview"
+        android:background="@android:color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/banner_ad_unit_id">
+    </com.google.android.gms.ads.AdView>
 
-    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/search_by_street_street_list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical"/>
-
-</LinearLayout>
+</RelativeLayout>

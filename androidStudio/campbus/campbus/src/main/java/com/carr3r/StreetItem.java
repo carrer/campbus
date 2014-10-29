@@ -2,6 +2,8 @@ package com.carr3r;
 
 /**
  * Created by carrer on 10/23/14.
+ * Objeto a ser utilizado pelo StreetItemAdapter para gestão de listas (ListViews) com localidades
+ * baseado no layout descrito em "street_row.xml";
  */
 public class StreetItem {
 

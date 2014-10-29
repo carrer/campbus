@@ -11,8 +11,11 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.carr3r.Definitions;
 import com.carr3r.R;
 import com.carr3r.Utils;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,12 +23,17 @@ import org.json.JSONObject;
 
 /**
  * Created by carrer on 10/23/14.
+ * Activity que exibe as informações da linha como letreiros, itinerários, quantidade de ônibus circulando,
+ * horários, etc. Recebe a numeração por parâmetro NUMBER
  */
 public class LineInfo extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /*
+            Remove a barra de título e expanse o activity em fullscreen
+         */
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -162,6 +170,18 @@ public class LineInfo extends Activity {
         } catch (JSONException e) {
         }
 
+        // advertising pra pagar minha cerveja ;)
+        AdView adView = (AdView) this.findViewById(R.id.line_info_adview);
+        AdRequest adRequest;
+        if ( Definitions.DEBUG )
+            adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)// This is for emulators
+                .addTestDevice("2EAB96D84FE62876379A9C030AA6A0AC") // Nexus 5
+                .build();
+        else
+            adRequest = new AdRequest.Builder().build();
+
+        adView.loadAd(adRequest);
 
     }
 

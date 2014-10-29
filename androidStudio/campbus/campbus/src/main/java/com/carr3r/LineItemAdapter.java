@@ -12,17 +12,20 @@ import java.util.ArrayList;
 
 /**
  * Created by carrer on 10/23/14.
+ * Extensor do ArrayAdapter para customização de ListViews (layout definido em line_row.xml)
  */
 public class LineItemAdapter extends ArrayAdapter<LineItem> {
 
     private final Context context;
     private final ArrayList<LineItem> itemsArrayList;
+    /*
+        Cores de fundo (linha par utiliza colors[0] de fundo; linha impar colors[1];)
+     */
     private int[] colors = new int[] {Color.rgb (175, 203, 219), Color.WHITE };
 
     public LineItemAdapter(Context context, ArrayList<LineItem> itemsArrayList) {
 
         super(context, R.layout.line_row, itemsArrayList);
-
         this.context = context;
         this.itemsArrayList = itemsArrayList;
     }
@@ -30,13 +33,12 @@ public class LineItemAdapter extends ArrayAdapter<LineItem> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        // 1. Create inflater
+        // expande o contexto pai para caber a view descrita no layout line_row.xml
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        // 2. Get rowView from inflater
         View rowView = inflater.inflate(R.layout.line_row, parent, false);
 
-        // 3. Get the two text view from the rowView
+        // identifica os objetos gráficos do layout referente aos mapeados na classe LineInfo
         TextView nameView = (TextView) rowView.findViewById(R.id.line_row_line_name);
         TextView numberView = (TextView) rowView.findViewById(R.id.line_row_line_number);
         TextView board1View = (TextView) rowView.findViewById(R.id.line_row_board1);
@@ -50,7 +52,6 @@ public class LineItemAdapter extends ArrayAdapter<LineItem> {
         int colorPos = 1;//position % colors.length;
         rowView.setBackgroundColor(colors[colorPos]);
 
-        // 5. retrn rowView
         return rowView;
     }
 }

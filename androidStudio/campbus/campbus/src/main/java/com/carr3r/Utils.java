@@ -7,11 +7,15 @@ import java.io.InputStream;
 
 /**
  * Created by carrer on 10/24/14.
+ * Classe com funções auxiliares;
  */
 public class Utils {
 
+    /*
+        Carrega um arquivo JSON da pasta de assets
+     */
     public static String loadJSONFromAsset(Context context, String file) {
-        String json = null;
+        String json;
         try {
 
             InputStream is = context.getAssets().open("db/"+file);
@@ -28,8 +32,7 @@ public class Utils {
 
 
         } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
+            json="";
         }
         return json;
 
