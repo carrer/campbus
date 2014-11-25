@@ -12,9 +12,8 @@
 
         <LinearLayout
             android:background="@android:color/white"
-            android:id="@+id/line_info_view"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <LinearLayout
@@ -32,7 +31,8 @@
                     >
                 </ImageView>
 
-                <TextView android:id="@+id/line_info_line_number"
+                <TextView
+                    android:id="@+id/line_info_line_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="30sp"
@@ -52,33 +52,18 @@
                 android:gravity="center"
                 android:textColor="@android:color/white"/>
 
-            <LinearLayout
-                android:orientation="horizontal"
+            <TextView
+                android:id="@+id/line_info_board"
+                android:background="@android:color/black"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/black">
-
-                <ImageView
-                    android:layout_margin="5dp"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/left_arrow_inverted"
-                    >
-                </ImageView>
-
-                <TextView
-                    android:id="@+id/line_info_board1"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:padding="5dp"
-                    android:textColor="@android:color/white">
-                </TextView>
-            </LinearLayout>
+                android:textSize="20sp"
+                android:padding="5dp"
+                android:textColor="@android:color/white">
+            </TextView>
 
             <TextView
-                android:id="@+id/line_info_weekday1"
+                android:id="@+id/line_info_vehicles_weekday"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -88,13 +73,25 @@
                 android:background="@color/light_yellow">
             </TextView>
 
+            <GridView
+
+                android:id="@+id/line_info_weekday"
+                android:numColumns="auto_fit"
+                android:gravity="center"
+                android:columnWidth="50dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+            </GridView>
+
             <View
+                android:id="@+id/line_info_weekday_divisor"
                 android:layout_width="fill_parent"
                 android:layout_height="1dip"
                 android:background="#000000" />
 
             <TextView
-                android:id="@+id/line_info_saturday1"
+                android:id="@+id/line_info_vehicles_saturday"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -104,13 +101,25 @@
                 android:background="@color/light_yellow">
             </TextView>
 
+            <GridView
+
+                android:id="@+id/line_info_saturday"
+                android:numColumns="auto_fit"
+                android:gravity="center"
+                android:columnWidth="50dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+            </GridView>
+
             <View
+                android:id="@+id/line_info_saturday_divisor"
                 android:layout_width="fill_parent"
                 android:layout_height="1dip"
                 android:background="#000000" />
 
             <TextView
-                android:id="@+id/line_info_sunday1"
+                android:id="@+id/line_info_vehicles_sunday"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -120,102 +129,51 @@
                 android:background="@color/light_yellow">
             </TextView>
 
-            <LinearLayout
-                android:id="@+id/line_info_way1"
+            <GridView
+                android:id="@+id/line_info_sunday"
+                android:numColumns="auto_fit"
+                android:gravity="center"
+                android:columnWidth="50dp"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"/>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/black">
-
-                <ImageView
-                    android:layout_margin="5dp"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/left_arrow_inverted"
-                    android:rotation="180"
-                    >
-                </ImageView>
-
-                <TextView
-                    android:id="@+id/line_row_board2"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:padding="5dp"
-                    android:textColor="@android:color/white">
-                </TextView>
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/line_info_weekday2"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:padding="5dp"
-                android:textColor="@android:color/black"
-                android:text="Dias úteis"
-                android:background="@color/light_yellow">
-            </TextView>
+                android:layout_height="wrap_content">
+            </GridView>
 
             <View
+                android:id="@+id/line_info_sunday_divisor"
                 android:layout_width="fill_parent"
                 android:layout_height="1dip"
                 android:background="#000000" />
 
             <TextView
-                android:id="@+id/line_info_saturday2"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:padding="5dp"
                 android:textColor="@android:color/black"
-                android:text="Sábados"
+                android:text="Itinerário"
                 android:background="@color/light_yellow">
             </TextView>
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dip"
-                android:background="#000000" />
-
             <TextView
-                android:id="@+id/line_info_sunday2"
+                android:id="@+id/line_info_map"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:layout_height="50dp"
+                android:textSize="20sp"
                 android:padding="5dp"
-                android:textColor="@android:color/black"
-                android:text="Domingos e feriados"
-                android:background="@color/light_yellow">
+                android:textColor="@android:color/white"
+                android:text="Ver Mapa"
+                android:gravity="center"
+                android:background="@color/red">
             </TextView>
 
             <LinearLayout
-                android:id="@+id/line_info_way2"
+                android:id="@+id/line_info_way"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"/>
-
 
         </LinearLayout>
 
     </ScrollView>
-
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/line_info_adview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:background="@android:color/black"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id">
-    </com.google.android.gms.ads.AdView>
 
 </RelativeLayout>

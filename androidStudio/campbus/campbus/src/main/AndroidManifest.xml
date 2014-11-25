@@ -1,22 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.carr3r" >
+    package="com.carr3r.campbus" >
 
     <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="15" />
 
-    <!-- AdMob SDK requires Internet permission  -->
+    <!-- AdMob SDK requires Internet permission -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <permission
+        android:name="com.carr3r.campbus.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="com.carr3r.campbus.permission.MAPS_RECEIVE"/>
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/FullscreenTheme" >
-        <meta-data android:name="com.google.android.gms.version"
+        <meta-data
+            android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyAKqkemrQ8DXHzrpETTkejq0tYtgWaiwQw" />
 
         <activity
             android:name=".activity.Main"
@@ -28,25 +44,29 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.SearchByStreet"
+            android:name="com.carr3r.campbus.activity.SearchByStreet"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
-            android:name=".activity.StreetInfo"
+            android:name="com.carr3r.campbus.activity.Map"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
-            android:name=".activity.SearchByLine"
+            android:name="com.carr3r.campbus.activity.StreetInfo"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
-            android:name=".activity.LineInfo"
+            android:name="com.carr3r.campbus.activity.SearchByLine"
             android:theme="@style/AppTheme" >
         </activity>
-        <activity android:name="com.google.android.gms.ads.AdActivity"
+        <activity
+            android:name="com.carr3r.campbus.activity.LineInfo"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@android:style/Theme.Translucent" />
-
     </application>
 
 </manifest>

@@ -3,5 +3,10 @@
 
     <string name="app_name">campbus</string>
     <string name="banner_ad_unit_id">ca-app-pub-4258252480836447/4529776540</string>
+    <string name="cancel">Cancelar</string>
+    <string name="select_way">Selecione o sentido desejado:</string>
+    <string name="title_activity_map">Map</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

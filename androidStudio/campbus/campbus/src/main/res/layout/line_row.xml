@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/line_row_line_top_view">
 
     <TextView
         android:background="@android:color/black"
@@ -38,16 +39,18 @@
 
     <TextView
         android:id="@+id/line_row_line_name"
-        android:background="@android:color/darker_gray"
+        android:background="@color/dark_blue"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:padding="5dp"
         android:gravity="center"
-        android:textColor="@android:color/black">
+        android:textColor="@android:color/white">
     </TextView>
 
     <LinearLayout
+        android:id="@+id/line_row_way1"
+        android:background="@color/light_gray"
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
@@ -61,40 +64,82 @@
             >
         </ImageView>
 
-        <TextView
-            android:id="@+id/line_row_board1"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:padding="5dp"
-            android:textColor="@android:color/black">
-        </TextView>
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/line_row_direction1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:padding="5dp"
+                android:gravity="center"
+                android:textColor="@android:color/black">
+            </TextView>
+
+            <TextView
+                android:id="@+id/line_row_board1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:padding="5dp"
+                android:gravity="center"
+                android:textColor="@android:color/black">
+            </TextView>
+        </LinearLayout>
     </LinearLayout>
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/line_row_way2"
+        android:background="@color/light_yellow"
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_marginRight="25dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                    android:id="@+id/line_row_direction2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:padding="5dp"
+                    android:gravity="center"
+                    android:textColor="@android:color/black">
+                </TextView>
+
+            <TextView
+                android:id="@+id/line_row_board2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:padding="5dp"
+                android:gravity="center"
+                android:textColor="@android:color/black">
+            </TextView>
+        </LinearLayout>
 
         <ImageView
             android:layout_margin="5dp"
+            android:layout_marginRight="10dp"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="center"
             android:src="@drawable/left_arrow"
             android:rotation="180"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             >
         </ImageView>
 
-        <TextView
-                android:id="@+id/line_row_board2"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:padding="5dp"
-                android:textColor="@android:color/black">
-            </TextView>
-
-    </LinearLayout>
+    </RelativeLayout>
     <TextView
         android:background="@android:color/black"
         android:layout_width="fill_parent"
