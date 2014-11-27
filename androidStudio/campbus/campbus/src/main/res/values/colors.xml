@@ -1,10 +1,12 @@
 <resources>
 
     <color name="black_overlay">#66000000</color>
-    <color name="light_yellow">#F3FD9A</color>
+    <color name="light_yellow">#E8E8C5</color>
     <color name="dark_gray">#7A7A7A</color>
     <color name="light_gray">#E6E6E6</color>
     <color name="dark_blue">#21465C</color>
+    <color name="gray">#666666</color>
+    <color name="green">#BDD9C4</color>
     <color name="red">#E80747</color>
 
 </resources>

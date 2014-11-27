@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">campbus</string>
+    <string name="app_name">campBUS</string>
     <string name="banner_ad_unit_id">ca-app-pub-4258252480836447/4529776540</string>
     <string name="cancel">Cancelar</string>
     <string name="select_way">Selecione o sentido desejado:</string>
     <string name="title_activity_map">Map</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="disclaimer"><b>campBUS</b> é um aplicativo de código aberto que promove a divulgação das informações do transporte coletivo na cidade de Campinas. As informações sobre horários/linhas/itinerários foram retiradas da página da EMDEC e Portal Interbuss. É sabido que os dados não estão integralmente acurados, mas espera-se que a própria comunidade de usuários contribua com o desenvolvimento e melhoria do aplicativo. Caso você identifique alguma inconsistência na base de dados, assim como algum recurso do aplicativo em mau-funcionamento, envolva-se com o projeto: baixe o código fonte do aplicativo em <b>https://github.com/carrer/campbus</b> e submeta sua correção.</string>
 
 </resources>

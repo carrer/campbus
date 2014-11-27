@@ -105,7 +105,6 @@ public class StreetInfo extends Activity {
                 final String lineNumber = ((TextView) view.findViewById(R.id.line_row_line_number)).getText().toString();
 
                 if (locationY >= withoutDirection[0] && locationY <= withoutDirection[1]) {
-                    Log.i("carr3r", "W I T H O U T");
                     LineItem clickedItem = (LineItem) parent.getAdapter().getItem(position);
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -155,15 +154,12 @@ public class StreetInfo extends Activity {
                     dialog = builder.create();
                     dialog.show();
                 } else if (locationY >= directionOne[0] && locationY <= directionOne[1]) {
-                    Log.i("carr3r", "O n e");
                     Intent lineInfo = new Intent(StreetInfo.this, LineInfo.class);
                     lineInfo.putExtra("NUMBER", lineNumber);
                     lineInfo.putExtra("WAY", "1");
                     startActivity(lineInfo);
                     overridePendingTransition(R.anim.right_slide_in, R.anim.slide_stay);
                 } else if (locationY >= directionTwo[0] && locationY <= directionTwo[1]) {
-                    Log.i("carr3r", "T w o");
-
                     Intent lineInfo = new Intent(StreetInfo.this, LineInfo.class);
                     lineInfo.putExtra("NUMBER", lineNumber);
                     lineInfo.putExtra("WAY", "2");
@@ -195,6 +191,10 @@ public class StreetInfo extends Activity {
 
             try {
                 lineNumber = lines.getString(i);
+
+                if (lineNumber.length()==3)
+                    lineNumber += "-0";
+
                 obj = new JSONObject(Utils.loadJSONFromAsset(this, lineNumber + ".json"));
                 line = obj.getString("linha");
                 line = line.substring(line.lastIndexOf("-") + 1).trim();

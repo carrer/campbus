@@ -36,6 +36,7 @@
 
         <activity
             android:name=".activity.Main"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,22 +46,32 @@
         </activity>
         <activity
             android:name="com.carr3r.campbus.activity.SearchByStreet"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
             android:name="com.carr3r.campbus.activity.Map"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name="com.carr3r.campbus.activity.Disclaimer"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
             android:name="com.carr3r.campbus.activity.StreetInfo"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
             android:name="com.carr3r.campbus.activity.SearchByLine"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
             android:name="com.carr3r.campbus.activity.LineInfo"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" >
         </activity>
         <activity

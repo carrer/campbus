@@ -1,15 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:map="http://schemas.android.com/tools"
     android:background="@android:color/white"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/map"
+
+    <LinearLayout
+        android:background="@android:color/white"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        class="com.google.android.gms.maps.SupportMapFragment"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@android:color/black">
+
+            <ImageView
+                android:layout_margin="10dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="top"
+                android:src="@drawable/bus_stop_inverted"
+                >
+            </ImageView>
+
+            <TextView
+                android:id="@+id/map_line_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:padding="10dp"
+                android:textColor="@android:color/white"/>
+
+        </LinearLayout>
+
+        <TextView android:id="@+id/map_line_name"
+            android:background="@android:color/black"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:gravity="center"
+            android:textColor="@android:color/white"/>
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            map:cameraTargetLat="-22.9099380"
+            map:cameraTargetLng="-47.0626330"
+            map:cameraZoom="14"
+            map:mapType="normal"
+            class="com.google.android.gms.maps.SupportMapFragment"/>
+
+    </LinearLayout>
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/map_adview"

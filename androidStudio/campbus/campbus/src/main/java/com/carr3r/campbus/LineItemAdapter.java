@@ -22,7 +22,7 @@ public class LineItemAdapter extends ArrayAdapter<LineItem> {
     /*
         Cores de fundo (linha par utiliza colors[0] de fundo; linha impar colors[1];)
      */
-    private int[] colors = new int[] {Color.rgb (175, 203, 219), Color.WHITE };
+    private int[] colors = new int[] {Color.rgb (102, 102, 102), Color.WHITE };
 
     public LineItemAdapter(Context context, ArrayList<LineItem> itemsArrayList) {
 

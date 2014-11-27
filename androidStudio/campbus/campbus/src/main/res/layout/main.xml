@@ -11,16 +11,15 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="6mm">
 
-        <TextView
-            android:layout_width="fill_parent"
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:padding="10dp"
+            android:layout_gravity="center"
             android:textColor="@android:color/black"
-            android:textSize="30dp"
             android:layout_marginTop="5mm"
             android:layout_marginBottom="5mm"
-            android:text="CampBus"/>
+            android:src="@drawable/title"/>
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -31,13 +30,13 @@
             android:padding="3mm"
             android:layout_marginLeft="3mm"
             android:layout_marginRight="3mm"
-            android:layout_marginBottom="5mm"
+            android:layout_marginBottom="3mm"
             android:onClick="go2SearchByStreet">
 
             <ImageView
-                android:layout_margin="5dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_margin="3dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_gravity="center"
                 android:src="@drawable/steet">
             </ImageView>
@@ -45,8 +44,8 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
-                android:padding="5dp"
+                android:textSize="20sp"
+                android:padding="3dp"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:textColor="@android:color/black"
@@ -65,12 +64,13 @@
             android:padding="3mm"
             android:layout_marginLeft="3mm"
             android:layout_marginRight="3mm"
+            android:layout_marginBottom="3mm"
             android:onClick="go2SearchByLine">
 
             <ImageView
-                android:layout_margin="5dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_margin="3dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_gravity="center"
                 android:src="@drawable/bus_stop">
             </ImageView>
@@ -79,15 +79,46 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
-                android:padding="5dp"
+                android:textSize="20sp"
+                android:padding="3dp"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:textColor="@android:color/black"
                 android:text="Procurar por linha">
             </TextView>
 
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:background="@drawable/layout_bg"
+            android:padding="3mm"
+            android:layout_marginLeft="3mm"
+            android:layout_marginRight="3mm"
+            android:onClick="go2Disclaimer">
+
+            <ImageView
+                android:layout_margin="3dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:src="@drawable/note">
+            </ImageView>
+
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:padding="3dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="@android:color/black"
+                android:text="Sobre">
+            </TextView>
 
         </LinearLayout>
 

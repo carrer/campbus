@@ -39,7 +39,7 @@
 
     <TextView
         android:id="@+id/line_row_line_name"
-        android:background="@color/dark_blue"
+        android:background="@color/gray"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textSize="24sp"
@@ -50,7 +50,7 @@
 
     <LinearLayout
         android:id="@+id/line_row_way1"
-        android:background="@color/light_gray"
+        android:background="@color/green"
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">

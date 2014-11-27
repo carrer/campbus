@@ -21,7 +21,7 @@ public class TimeItemAdapter extends ArrayAdapter<TimeItem> {
 
     private final Context context;
     private final ArrayList<TimeItem> itemsArrayList;
-    private final int highlight = Color.rgb(175, 203, 219);
+    private final int highlight = Color.rgb(232, 7, 71);
     private int dayOfWeek = 0;
     public static final int WEEKDAY = 1;
     public static final int SATURDAY = 2;
@@ -67,12 +67,12 @@ public class TimeItemAdapter extends ArrayAdapter<TimeItem> {
         {
             thisTime = 0;
         }
-//        Log.d("carr3r","title="+time+",thisTime="+thisTime );
 
         if (highlightNext == dayOfWeek && thisTime > now && !TimeItemAdapter.nextTime)
         {
             TimeItemAdapter.nextTime = true;
             titleView.setBackgroundColor(highlight);
+            titleView.setTextColor(Color.WHITE);
         }
 
         return rowView;

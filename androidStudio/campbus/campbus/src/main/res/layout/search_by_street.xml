@@ -11,6 +11,15 @@
         android:orientation="vertical"
         android:layout_marginBottom="6mm">
 
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:padding="10dp"
+            android:text="Procurar por localidade"
+            android:background="@color/gray"
+            android:textColor="@android:color/white"/>
+
         <LinearLayout
             android:background="#EBEBEB"
             android:layout_width="fill_parent"

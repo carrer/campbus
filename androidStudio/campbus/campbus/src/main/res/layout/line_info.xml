@@ -20,7 +20,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="#21465C">
+                android:background="@android:color/black">
 
                 <ImageView
                     android:layout_margin="10dp"
@@ -42,7 +42,7 @@
             </LinearLayout>
 
             <TextView android:id="@+id/line_info_line_name"
-                android:background="#21465C"
+                android:background="@android:color/black"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
@@ -54,7 +54,7 @@
 
             <TextView
                 android:id="@+id/line_info_board"
-                android:background="@android:color/black"
+                android:background="@color/gray"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
@@ -160,10 +160,10 @@
                 android:layout_height="50dp"
                 android:textSize="20sp"
                 android:padding="5dp"
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/black"
                 android:text="Ver Mapa"
                 android:gravity="center"
-                android:background="@color/red">
+                android:background="@color/green">
             </TextView>
 
             <LinearLayout
@@ -175,5 +175,15 @@
         </LinearLayout>
 
     </ScrollView>
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/line_info_adview"
+        android:background="@android:color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/banner_ad_unit_id">
+    </com.google.android.gms.ads.AdView>
 
 </RelativeLayout>

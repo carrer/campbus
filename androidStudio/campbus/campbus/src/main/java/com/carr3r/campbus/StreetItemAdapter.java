@@ -23,7 +23,7 @@ public class StreetItemAdapter extends ArrayAdapter<StreetItem> {
     /*
         Para coloração diferenciada de linhas ímpares e pares
      */
-    private int[] BackgroundColors = new int[] {Color.rgb (33, 70, 92), Color.WHITE };
+    private int[] BackgroundColors = new int[] {Color.rgb (102, 102, 102), Color.WHITE };
     private int[] ForegroundColors = new int[] {Color.WHITE, Color.BLACK };
 
     public StreetItemAdapter(Context context, ArrayList<StreetItem> itemsArrayList) {

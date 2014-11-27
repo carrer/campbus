@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +15,13 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.carr3r.campbus.Definitions;
 import com.carr3r.campbus.R;
 import com.carr3r.campbus.TimeItem;
 import com.carr3r.campbus.TimeItemAdapter;
 import com.carr3r.campbus.Utils;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,6 +35,8 @@ import java.util.ArrayList;
  * horários, etc. Recebe a numeração por parâmetro NUMBER
  */
 public class LineInfo extends Activity {
+
+    private JSONObject geo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,8 @@ public class LineInfo extends Activity {
         int way = Integer.valueOf(getIntent().getExtras().getString("WAY"));
         try {
             jsonLine = new JSONObject(Utils.loadJSONFromAsset(this, lineNumber + ".json"));
+
+            geo = jsonLine.getJSONObject("geo");
 
             JSONObject jsonWay;
             // IDA
@@ -198,9 +204,8 @@ public class LineInfo extends Activity {
                 list.addView(v);
             }
 
+
         } catch (JSONException e) {
-            Log.e("carr3r", e.toString());
-            e.printStackTrace();
         }
 
 
@@ -208,14 +213,18 @@ public class LineInfo extends Activity {
             @Override
             public void onClick(View view) {
 
-                Log.i("carr3r", "showMap porra");
                 Intent map = new Intent(LineInfo.this, Map.class);
+                map.putExtra("NUMBER", ((TextView) findViewById(R.id.line_info_line_number)).getText());
+                map.putExtra("NAME", ((TextView) findViewById(R.id.line_info_line_name)).getText());
+                map.putExtra("GEO", geo.toString());
                 startActivity(map);
                 overridePendingTransition(R.anim.right_slide_in, R.anim.slide_stay);
             }
         });
+
         // advertising pra pagar minha cerveja ;)
-/*        AdView adView = (AdView) this.findViewById(R.id.line_info_adview);
+
+        AdView adView = (AdView) this.findViewById(R.id.line_info_adview);
         AdRequest adRequest;
         if ( Definitions.DEBUG )
             adRequest = new AdRequest.Builder()
@@ -226,7 +235,7 @@ public class LineInfo extends Activity {
             adRequest = new AdRequest.Builder().build();
 
         adView.loadAd(adRequest);
-*/
+
     }
 
     public void onBackPressed() {

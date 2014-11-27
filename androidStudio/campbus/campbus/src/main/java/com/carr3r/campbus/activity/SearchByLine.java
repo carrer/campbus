@@ -9,7 +9,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -116,7 +115,7 @@ public class SearchByLine extends Activity {
 
 
                 if (locationY >= withoutDirection[0] && locationY <= withoutDirection[1]) {
-                    Log.i("carr3r", "W I T H O U T");
+
                     LineItem clickedItem = (LineItem) parent.getAdapter().getItem(position);
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -166,15 +165,12 @@ public class SearchByLine extends Activity {
                     dialog = builder.create();
                     dialog.show();
                 } else if (locationY >= directionOne[0] && locationY <= directionOne[1]) {
-                    Log.i("carr3r", "O n e");
                     Intent lineInfo = new Intent(SearchByLine.this, LineInfo.class);
                     lineInfo.putExtra("NUMBER", lineNumber);
                     lineInfo.putExtra("WAY", "1");
                     startActivity(lineInfo);
                     overridePendingTransition(R.anim.right_slide_in, R.anim.slide_stay);
                 } else if (locationY >= directionTwo[0] && locationY <= directionTwo[1]) {
-                    Log.i("carr3r", "T w o");
-
                     Intent lineInfo = new Intent(SearchByLine.this, LineInfo.class);
                     lineInfo.putExtra("NUMBER", lineNumber);
                     lineInfo.putExtra("WAY", "2");
