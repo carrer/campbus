@@ -57,7 +57,7 @@ public class SearchByStreet extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         try {
-            jsonStreets = new JSONObject(Utils.loadJSONFromAsset(this, "paradas.json"));
+            jsonStreets = new JSONObject(Utils.loadFile(getApplicationContext(), "paradas.json"));
         } catch (JSONException e) {
             jsonStreets = null;
         }

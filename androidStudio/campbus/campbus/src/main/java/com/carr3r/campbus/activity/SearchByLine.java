@@ -63,7 +63,7 @@ public class SearchByLine extends Activity {
 
 
         try {
-            jsonLines = new JSONArray(Utils.loadJSONFromAsset(this, "linhas.json"));
+            jsonLines = new JSONArray(Utils.loadFile(getApplicationContext(), "linhas.json"));
         } catch (JSONException e) {
             jsonLines = null;
         }

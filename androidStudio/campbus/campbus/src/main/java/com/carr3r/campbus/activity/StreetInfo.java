@@ -192,12 +192,8 @@ public class StreetInfo extends Activity {
             try {
                 lineNumber = lines.getString(i);
 
-                if (lineNumber.length()==3)
-                    lineNumber += "-0";
-
-                obj = new JSONObject(Utils.loadJSONFromAsset(this, lineNumber + ".json"));
+                obj = new JSONObject(Utils.loadFile(getApplicationContext(), lineNumber + ".json"));
                 line = obj.getString("linha");
-                line = line.substring(line.lastIndexOf("-") + 1).trim();
                 directions[0] = obj.getJSONObject("ida").getString("sentido");
                 directions[1] = obj.getJSONObject("volta").getString("sentido");
                 boards[0] = obj.getJSONObject("ida").getString("letreiro");

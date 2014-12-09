@@ -52,12 +52,10 @@ public class LineInfo extends Activity {
         JSONObject jsonLine;
 
         String lineNumber = getIntent().getExtras().getString("NUMBER");
-        if (lineNumber.length() == 3)
-            lineNumber += "-0";
 
         int way = Integer.valueOf(getIntent().getExtras().getString("WAY"));
         try {
-            jsonLine = new JSONObject(Utils.loadJSONFromAsset(this, lineNumber + ".json"));
+            jsonLine = new JSONObject(Utils.loadFile(getApplicationContext(), lineNumber + ".json"));
 
             geo = jsonLine.getJSONObject("geo");
 
