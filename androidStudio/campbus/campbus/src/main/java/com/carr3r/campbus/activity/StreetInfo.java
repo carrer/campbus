@@ -199,28 +199,17 @@ public class StreetInfo extends Activity {
                 boards[0] = obj.getJSONObject("ida").getString("letreiro");
                 boards[1] = obj.getJSONObject("volta").getString("letreiro");
             } catch (JSONException e) {
-                // Melhorar isso com Locale
-                lineNumber = "???";
-                line = "Desconhecido";
-                boards[0] = boards[1] = "Desconhecido";
-                directions[0] = directions[1] = "Desconhecido";
+
+                lineNumber = "?";
+                line = boards[0] = boards[1] = directions[0] = directions[1] = getString(R.string.unknown);
             }
 
             adapter.add(new LineItem(lineNumber, line, directions, boards));
         }
 
 
-        // advertising pra pagar minha cerveja ;)
-        AdView adView = (AdView) this.findViewById(R.id.street_info_adview);
-        AdRequest adRequest;
-        if (Definitions.DEBUG)
-            adRequest = new AdRequest.Builder()
-                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)// This is for emulators
-                    .addTestDevice("2EAB96D84FE62876379A9C030AA6A0AC") // Nexus 5
-                    .build();
-        else
-            adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
+        // advertising pra cerveja ;)
+        Utils.startAd(findViewById(R.id.street_info_adview));
     }
 
     public void onBackPressed() {

@@ -90,9 +90,9 @@ public class LineInfo extends Activity {
 
 
                 String formatedVehicles = String.valueOf(vehicles) + " ";
-                formatedVehicles += vehicles > 1 ? "veículos" : "veículo";
+                formatedVehicles += getString(vehicles > 1 ? R.string.vehicles : R.string.vehicle );
 
-                ((TextView) findViewById(R.id.line_info_vehicles_weekday)).setText("Dias úteis: " + formatedVehicles);
+                ((TextView) findViewById(R.id.line_info_vehicles_weekday)).setText(getString(R.string.workdays)+": " + formatedVehicles);
 
                 GridView grid = (GridView) findViewById(R.id.line_info_weekday);//).setText("Dias úteis (" + formatedVehicles + "): " + timeList);
 
@@ -128,9 +128,9 @@ public class LineInfo extends Activity {
 
             } else {
                 String formatedVehicles = String.valueOf(vehicles) + " ";
-                formatedVehicles += vehicles > 1 ? "veículos" : "veículo";
+                formatedVehicles += getString(vehicles > 1 ? R.string.vehicles : R.string.vehicle );;
 
-                ((TextView) findViewById(R.id.line_info_vehicles_saturday)).setText("Sábados: " + formatedVehicles);
+                ((TextView) findViewById(R.id.line_info_vehicles_saturday)).setText(getString(R.string.saturdays) +": " + formatedVehicles);
 
                 GridView grid = (GridView) findViewById(R.id.line_info_saturday);
 
@@ -165,9 +165,9 @@ public class LineInfo extends Activity {
                 ((View) findViewById(R.id.line_info_sunday_divisor)).setVisibility(View.GONE);
             } else {
                 String formatedVehicles = String.valueOf(vehicles) + " ";
-                formatedVehicles += vehicles > 1 ? "veículos" : "veículo";
+                formatedVehicles += getString(vehicles > 1 ? R.string.vehicles : R.string.vehicle );;
 
-                ((TextView) findViewById(R.id.line_info_vehicles_sunday)).setText("Domingos e feriados: " + formatedVehicles);
+                ((TextView) findViewById(R.id.line_info_vehicles_sunday)).setText(getString(R.string.sundays)+": " + formatedVehicles);
 
                 GridView grid = (GridView) findViewById(R.id.line_info_sunday);
 
@@ -206,7 +206,6 @@ public class LineInfo extends Activity {
         } catch (JSONException e) {
         }
 
-
         findViewById(R.id.line_info_map).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -220,20 +219,8 @@ public class LineInfo extends Activity {
             }
         });
 
-        // advertising pra pagar minha cerveja ;)
-
-        AdView adView = (AdView) this.findViewById(R.id.line_info_adview);
-        AdRequest adRequest;
-        if ( Definitions.DEBUG )
-            adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)// This is for emulators
-                .addTestDevice("2EAB96D84FE62876379A9C030AA6A0AC") // Nexus 5
-                .build();
-        else
-            adRequest = new AdRequest.Builder().build();
-
-        adView.loadAd(adRequest);
-
+        // advertising pra cerveja ;)
+        Utils.startAd(findViewById(R.id.line_info_adview));
     }
 
     public void onBackPressed() {

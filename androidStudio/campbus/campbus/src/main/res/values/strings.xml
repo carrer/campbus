@@ -5,9 +5,21 @@
     <string name="banner_ad_unit_id">ca-app-pub-4258252480836447/4529776540</string>
     <string name="cancel">Cancelar</string>
     <string name="select_way">Selecione o sentido desejado:</string>
-    <string name="title_activity_map">Map</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="disclaimer"><b>campBUS</b> é um aplicativo de código aberto que promove a divulgação das informações do transporte coletivo na cidade de Campinas. As informações sobre horários/linhas/itinerários foram retiradas da página da EMDEC e Portal Interbuss. É sabido que os dados não estão integralmente acurados, mas espera-se que a própria comunidade de usuários contribua com o desenvolvimento e melhoria do aplicativo. Caso você identifique alguma inconsistência na base de dados, assim como algum recurso do aplicativo em mau-funcionamento, envolva-se com o projeto: baixe o código fonte do aplicativo em <b>https://github.com/carrer/campbus</b> e submeta sua correção.</string>
-
+    <string name="action_settings">Opções</string>
+    <string name="disclaimer"><b>campBUS</b> é um aplicativo de código aberto que promove o acesso às informações do sistema de transporte coletivo da cidade de Campinas. As informações sobre horários/linhas/itinerários foram retiradas das páginas da EMDEC e Portal Interbuss. Caso você identifique alguma inconsistência na base de dados, assim como algum recurso do aplicativo em mau-funcionamento, envolva-se com o projeto: baixe o código fonte do aplicativo em <b>https://github.com/carrer/campbus</b> e contribua com o desenvolvimento deste.</string>
+    <string name="noDB">Para usar o aplicativo é preciso sincronizar o banco de dados ao menos uma vez. Ative sua conexão Wifi e tente novamente.</string>
+    <string name="downloading_first_time">Baixando banco de dados...</string>
+    <string name="downloading_updates">Baixando atualizações...</string>
+    <string name="error_during_update">ERRO: Não foi possível atualizar o banco de dados. Problemas na conexão?</string>
+    <string name="error_during_download">ERRO: Não foi possível carregar o banco de dados. Problemas na conexão?</string>
+    <string name="database_updated">Banco de dados atualizado!</string>
+    <string name="vehicle">veículo</string>
+    <string name="vehicles">veículos</string>
+    <string name="workdays">Dias úteis</string>
+    <string name="saturdays">Sábados</string>
+    <string name="sundays">Domingos e feriados</string>
+    <string name="bus_stop">Parada</string>
+    <string name="wait">Aguarde</string>
+    <string name="search_records">Procurando registros...</string>
+    <string name="unknown">Desconhecido</string>
 </resources>

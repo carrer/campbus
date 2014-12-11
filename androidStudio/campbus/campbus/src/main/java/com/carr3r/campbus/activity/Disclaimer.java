@@ -43,17 +43,8 @@ public class Disclaimer extends Activity {
 
         setContentView(R.layout.disclaimer);
 
-        // advertising pra pagar minha cerveja ;)
-        AdView adView = (AdView) this.findViewById(R.id.disclaimer_adview);
-        AdRequest adRequest;
-        if (Definitions.DEBUG)
-            adRequest = new AdRequest.Builder()
-                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)// This is for emulators
-                    .addTestDevice("2EAB96D84FE62876379A9C030AA6A0AC") // Nexus 5
-                    .build();
-        else
-            adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
+        // advertising pra cerveja ;)
+        Utils.startAd(findViewById(R.id.disclaimer_adview));
     }
 
     public void onBackPressed() {

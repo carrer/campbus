@@ -199,18 +199,8 @@ public class SearchByLine extends Activity {
         });
 
 
-        // advertising pra pagar minha cerveja ;)
-        AdView adView = (AdView) this.findViewById(R.id.search_by_line_adview);
-        AdRequest adRequest;
-        if (Definitions.DEBUG)
-            adRequest = new AdRequest.Builder()
-                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)// This is for emulators
-                    .addTestDevice("2EAB96D84FE62876379A9C030AA6A0AC") // Nexus 5
-                    .build();
-        else
-            adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
-
+        // advertising pra cerveja ;)
+        Utils.startAd(findViewById(R.id.search_by_line_adview));
     }
 
     public void onBackPressed() {
@@ -226,8 +216,8 @@ public class SearchByLine extends Activity {
         protected void onPreExecute() {
 
             super.onPreExecute();
-            dialog = ProgressDialog.show(SearchByLine.this, "Aguarde",
-                    "Procurando registros...");
+            dialog = ProgressDialog.show(SearchByLine.this, getString(R.string.wait),
+                    getString(R.string.search_records));
 
         }
 
@@ -283,8 +273,8 @@ public class SearchByLine extends Activity {
 
                 } catch (JSONException e) {
                     lineNumber = "?";
-                    line = "Desconhecido";
-                    boards[0] = boards[1] = "Desconhecido";
+                    line = getString(R.string.unknown);
+                    boards[0] = boards[1] = getString(R.string.unknown);
                 }
 
                 adapter.add(new LineItem(lineNumber, line, directions, boards));

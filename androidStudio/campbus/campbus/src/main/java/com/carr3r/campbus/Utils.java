@@ -1,21 +1,33 @@
 package com.carr3r.campbus;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import org.json.JSONObject;
+import org.xeustechnologies.jtar.TarEntry;
+import org.xeustechnologies.jtar.TarInputStream;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.ByteBuffer;
@@ -37,7 +49,7 @@ public class Utils {
     }
 
     /*
-        Carrega um arquivo JSON da pasta de assets
+        Carrega um arquivo JSON do armazenamento interno
      */
     public static String loadFile(Context context, String file) {
         try
@@ -51,13 +63,12 @@ public class Utils {
         }
         catch (Exception e)
         {
-            e.printStackTrace();
             return null;
         }
     }
 
     /*
-        Carrega um arquivo JSON da pasta de assets
+        Salva um arquivo JSON para o armazenamento interno
      */
     public static Boolean saveFile(Context context, String file, JSONObject json) {
 
@@ -85,6 +96,7 @@ public class Utils {
         return true;
     }
 
+    // apaga um arquivo do armazenamento interno
     public static Boolean deleteFile(Context context, String file)
     {
         return context.deleteFile(file);
@@ -95,34 +107,11 @@ public class Utils {
         return (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
     }
 
-    // CRC inspired on http://www.s-parker.uk/2014/08/crc8-arduino-and-php-implementation/
-    public static byte crc8(String txt)
-    {
-        byte content[] = txt.getBytes();
-        int crc = 0;
-        for(int i=0;i<content.length;i++)
-        {
-            byte extract = content[i];
-            for(int j=0;j<8;j++)
-            {
-                int sum = (crc ^ extract) & 0x01;
-                crc >>= 1;
-                if (sum>0)
-                    crc ^= 0x8C;
-                extract >>= 1;
-            }
-        }
-        return (byte) crc;
-    }
-
+    // baixa um arquivo
     public static byte[] downloadRemote(URL url)
     {
         if (url == null)
             return null;
-
-
-        Log.d("carr3r","URL="+url.toString());
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         try
         {
@@ -136,24 +125,85 @@ public class Utils {
         }
         catch(Exception e)
         {
-            e.printStackTrace();
         }
         return null;
     }
 
-    public static String decompress(byte[] compressed) throws IOException {
+    public static boolean fileExistance(Context context, String fname){
+        File file = context.getFileStreamPath(fname);
+        return file.exists();
+    }
+
+    // verifica se o dispositivo tem conectividade
+    public static boolean isOnline(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null ? cm.getActiveNetworkInfo().isConnected() : false;
+    }
+
+    // gunzip
+    public static byte[] decompress(byte[] compressed) throws IOException {
         final int BUFFER_SIZE = 32;
         ByteArrayInputStream is = new ByteArrayInputStream(compressed);
         GZIPInputStream gis = new GZIPInputStream(is, BUFFER_SIZE);
-        StringBuilder string = new StringBuilder();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
         byte[] data = new byte[BUFFER_SIZE];
         int bytesRead;
         while ((bytesRead = gis.read(data)) != -1) {
-            string.append(new String(data, 0, bytesRead));
+            outputStream.write(data, 0, bytesRead);
         }
         gis.close();
         is.close();
-        return string.toString();
+        return outputStream.toByteArray();
     }
+
+
+    public static Boolean unTar(Context context, byte[] stream)
+    {
+        try
+        {
+            TarInputStream tis = new TarInputStream(new ByteArrayInputStream(stream));
+            TarEntry entry;
+            while((entry = tis.getNextEntry()) != null) {
+
+
+                int count;
+                byte data[] = new byte[2048];
+
+                FileOutputStream fos = context.openFileOutput(entry.getName(), Context.MODE_PRIVATE);
+                BufferedOutputStream dest = new BufferedOutputStream(fos);
+
+                while((count = tis.read(data)) != -1) {
+                    dest.write(data, 0, count);
+                }
+
+                dest.flush();
+                dest.close();
+            }
+
+            tis.close();
+            return true;
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
+    }
+
+
+    public static void startAd(View banner)
+    {
+        AdView adView = (AdView) banner;
+        AdRequest adRequest;
+        if (Definitions.DEBUG)
+            adRequest = new AdRequest.Builder()
+                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)// This is for emulators
+                    .addTestDevice("2EAB96D84FE62876379A9C030AA6A0AC") // Nexus 5
+                    .build();
+        else
+            adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+    }
+
 
 }

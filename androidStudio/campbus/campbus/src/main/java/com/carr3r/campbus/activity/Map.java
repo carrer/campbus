@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.carr3r.campbus.Definitions;
 import com.carr3r.campbus.R;
+import com.carr3r.campbus.Utils;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -54,10 +55,9 @@ public class Map extends android.support.v4.app.FragmentActivity {
         ((TextView) findViewById(R.id.map_line_name)).setText(getIntent().getExtras().getString("NAME"));
         ((TextView) findViewById(R.id.map_line_number)).setText(getIntent().getExtras().getString("NUMBER"));
 
-        JSONObject geo;
         try
         {
-            geo = new JSONObject(getIntent().getExtras().getString("GEO"));
+            JSONObject geo = new JSONObject(getIntent().getExtras().getString("GEO"));
 
             String center[] = geo.get("center").toString().split(", ");
             double lat = Double.valueOf(center[0].trim());
@@ -85,7 +85,7 @@ public class Map extends android.support.v4.app.FragmentActivity {
                 double lt = Double.valueOf(c[0]);
                 double ln = Double.valueOf(c[1]);
 
-                MarkerOptions marker = new MarkerOptions().position(new LatLng(lt, ln)).title("Parada");
+                MarkerOptions marker = new MarkerOptions().position(new LatLng(lt, ln)).title(getString(R.string.bus_stop));
 
                 marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.busstopmarker));
 
@@ -93,28 +93,14 @@ public class Map extends android.support.v4.app.FragmentActivity {
 
             }
 
-
-
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         } catch (Exception e)
         {
-            geo = null;
-            e.printStackTrace();
         }
 
-        // advertising pra pagar minha cerveja ;)
-        AdView adView = (AdView) this.findViewById(R.id.map_adview);
-        AdRequest adRequest;
-        if (Definitions.DEBUG)
-            adRequest = new AdRequest.Builder()
-                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)// This is for emulators
-                    .addTestDevice("2EAB96D84FE62876379A9C030AA6A0AC") // Nexus 5
-                    .build();
-        else
-            adRequest = new AdRequest.Builder().build();
-
-        adView.loadAd(adRequest);
+        // advertising pra cerveja ;)
+        Utils.startAd(findViewById(R.id.map_adview));
     }
 
     public void onBackPressed() {

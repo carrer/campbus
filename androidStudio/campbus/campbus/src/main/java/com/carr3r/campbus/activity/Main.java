@@ -3,46 +3,48 @@ package com.carr3r.campbus.activity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.carr3r.campbus.Definitions;
 import com.carr3r.campbus.R;
 import com.carr3r.campbus.Utils;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
+import com.carr3r.campbus.WebIndex;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by carrer on 10/23/14.
- * Activity principal. Simplesmente
+ * Activity principal. Ao inicializar o app, este activity verifica a consistência do banco de dados.
  */
 public class Main extends Activity {
 
+    // ProgressDialog para exibição das animações de download
     ProgressDialog mProgressDialog;
-    public static final String HOMEPAGE = "http://www.carr3r.com/campbus/";
-    public static final String CHECKSUM_INDEX = HOMEPAGE+"checksum.json";
-    public static final String INDEX = HOMEPAGE+"index.json";
-    public static final String GZ_DIR = HOMEPAGE+"gz/";
+
+    // Garante a ininterrupção da thread mesmo que o app entre em segundo plano
+    PowerManager.WakeLock mWakeLock;
+
+    // Workaround para exibir Toasts por tempos maiores que 5s
+    Toast toast;
+
+
+    boolean hasDB = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,54 +58,128 @@ public class Main extends Activity {
 
         setContentView(R.layout.main);
 
-        // advertising pra pagar minha cerveja ;)
-        AdView adView = (AdView) this.findViewById(R.id.main_adview);
-        AdRequest adRequest;
-        if (Definitions.DEBUG)
-            adRequest = new AdRequest.Builder()
-                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)// This is for emulators
-                    .addTestDevice("2EAB96D84FE62876379A9C030AA6A0AC") // Nexus 5
-                    .build();
+        // advertising pra cerveja ;)
+        Utils.startAd(findViewById(R.id.main_adview));
+
+        if (!Utils.fileExistance(this, "checksum.json"))
+        {
+            hasDB = false;
+            downloadDB();
+        }
         else
-            adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
-
-// instantiate it within the onCreate method
-        mProgressDialog = new ProgressDialog(Main.this);
-        mProgressDialog.setMessage("Verificando atualizações...");
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        mProgressDialog.setCancelable(false);
-
-// execute this when the downloader must be fired
-        VerifySynchronizationTask vsyncTask = new VerifySynchronizationTask(Main.this);
-        vsyncTask.execute();
+            updateDB();
 
     }
 
 
+    public void downloadDB()
+    {
+        if (!Utils.isOnline(this))
+        {
+            if (toast == null) {
+                toast = Toast.makeText(this, getString(R.string.noDB), Toast.LENGTH_LONG);
+                fireLongToast();
+            }
+        }
+        else
+        {
+            mProgressDialog = new ProgressDialog(Main.this);
+            mProgressDialog.setMessage(getString(R.string.downloading_first_time));
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            mProgressDialog.setCancelable(false);
+
+            final DownloadTask downTask = new DownloadTask(Main.this);
+            downTask.execute(WebIndex.GZ_DIR+"db.tgz");
+        }
+    }
+
+    public void updateDB()
+    {
+        boolean verify = true;
+        try {
+            JSONObject local = new JSONObject(Utils.loadFile(this, "checksum.json"));
+            // já realizamos esta verificação hoje? Se sim, pula a verificação
+            if (local.getString("u").substring(0,10).equals(Utils.formatedDate().substring(0, 10)))
+                verify = false;
+        } catch (JSONException e) {}
+
+        if (verify && Utils.isOnline(this))
+        {
+            mProgressDialog = new ProgressDialog(Main.this);
+            mProgressDialog.setMessage(getString(R.string.downloading_updates));
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            mProgressDialog.setCancelable(false);
+
+            final VerifySynchronizationTask vsyncTask = new VerifySynchronizationTask(Main.this);
+            vsyncTask.execute();
+        }
+    }
+
+
     public void go2SearchByStreet(View v) {
+        if (!hasDB) {
+            downloadDB();
+            return;
+        }
+
         Intent searchByStreet = new Intent(Main.this, SearchByStreet.class);
         startActivity(searchByStreet);
         overridePendingTransition(R.anim.right_slide_in, R.anim.slide_stay);
     }
 
     public void go2SearchByLine(View v) {
+
+        if (!hasDB) {
+            downloadDB();
+            return;
+        }
+
         Intent searchByLine = new Intent(Main.this, SearchByLine.class);
         startActivity(searchByLine);
         overridePendingTransition(R.anim.right_slide_in, R.anim.slide_stay);
     }
 
     public void go2Disclaimer(View v) {
+
+        // remove o Toast da frente
+        if (toast != null) {
+            toast.cancel();
+            toast = null;
+        }
+
         Intent disclaimer = new Intent(Main.this, Disclaimer.class);
         startActivity(disclaimer);
         overridePendingTransition(R.anim.right_slide_in, R.anim.slide_stay);
     }
 
+    // workaround para exibir toasts por mais tempo
+    private void fireLongToast() {
+        Thread t;
+        if (toast != null) {
+            t = new Thread() {
+                public void run() {
+                    int count = 0;
+                    try {
+                        while (count < 3 && toast != null) {
+                            toast.show();
+                            sleep(1850);
+                            count++;
+                        }
+                        toast = null;
+                    } catch (Exception e) {
+                    }
+                }
+            };
+            t.start();
+        }
+    }
+
+    // verifica se foi lançado alguma atualização online
     private class VerifySynchronizationTask extends AsyncTask<Void, Integer, Boolean> {
 
         private Context context;
-        private PowerManager.WakeLock mWakeLock;
 
         public VerifySynchronizationTask(Context context) {
             this.context = context;
@@ -115,56 +191,54 @@ public class Main extends Activity {
             JSONObject local;
             try
             {
-                local = new JSONObject(Utils.loadFile(getApplicationContext(), "checksum.json"));
-            } catch(Exception e)
+                local = new JSONObject(Utils.loadFile(context, "checksum.json"));
+                // atualiza a data de última verificação
+                local.put("u", Utils.formatedDate());
+                Utils.saveFile(context, "checksum.json", local);
+            } catch(JSONException e)
             {
-                e.printStackTrace();
                 local = null;
             }
 
             URL url;
             try
             {
-                url = new URL(Main.CHECKSUM_INDEX);
-            } catch(Exception e)
+                url = new URL(WebIndex.CHECKSUM_INDEX);
+            } catch(MalformedURLException e)
             {
-                e.printStackTrace();
                 url = null;
             }
 
             String fileContents = new String(Utils.downloadRemote(url));
             if (fileContents != null)
             {
-                if (local == null)
-                    return true;
-
                 try
                 {
                     JSONObject remote = new JSONObject(fileContents);
+
+                    // verificamos o checksum do arquivo com catálogo de todos os checksums dos arquivos
                     if (!remote.getString("c").equals(local.getString("c")))
                         return true;
                 }
-                catch(Exception e)
+                catch(JSONException e)
                 {
-                    e.printStackTrace();
                     return false;
                 }
             }
-            else
-                Log.d("carr3r", "problem loading remote checksum file");
-
             return false;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            // take CPU lock to prevent CPU from going off if the user
-            // presses the power button during download
+
+            // impede que o processador entre em standby quando o usuário pressiona o botão de desligar
+
             PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                     getClass().getName());
             mWakeLock.acquire();
+
             mProgressDialog.show();
         }
 
@@ -175,15 +249,17 @@ public class Main extends Activity {
 
             if (result)
             {
-                mProgressDialog = new ProgressDialog(Main.this);
-                mProgressDialog.setMessage("Baixando atualizações");
-                mProgressDialog.setIndeterminate(true);
-                mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                mProgressDialog.setCancelable(false);
+                if (Utils.isOnline(context))
+                {
+                    mProgressDialog = new ProgressDialog(Main.this);
+                    mProgressDialog.setIndeterminate(true);
+                    mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                    mProgressDialog.setCancelable(false);
 
-                final SynchronizeTask syncTask = new SynchronizeTask(Main.this);
-                syncTask.execute();
-
+                    mProgressDialog.setMessage(getString(R.string.downloading_updates));
+                    final SynchronizeTask syncTask = new SynchronizeTask(Main.this);
+                    syncTask.execute();
+                }
             }
             else
                 mWakeLock.release();
@@ -194,7 +270,6 @@ public class Main extends Activity {
     private class SynchronizeTask extends AsyncTask<Void, Integer, Boolean> {
 
         private Context context;
-        private PowerManager.WakeLock mWakeLock;
 
         public SynchronizeTask(Context context) {
             this.context = context;
@@ -207,22 +282,22 @@ public class Main extends Activity {
 
             try
             {
-                localContent = new JSONObject(Utils.loadFile(getApplicationContext(), "checksum.json"));
-            } catch(Exception e)
+                localContent = new JSONObject(Utils.loadFile(context, "checksum.json"));
+            } catch(JSONException e)
             {
                 localContent = null;
-                Log.d("carr3r", "local file index doesn't exist");
             }
 
             URL url;
             try
             {
-                url = new URL(Main.INDEX);
-            } catch(Exception e)
+                url = new URL(WebIndex.INDEX);
+            } catch(MalformedURLException e)
             {
                 url = null;
             }
 
+            // baixa o catálogo de arquivos
             String fileContents = new String(Utils.downloadRemote(url));
             if (fileContents != null)
             {
@@ -236,18 +311,15 @@ public class Main extends Activity {
                     JSONArray files = remote.getJSONArray("f");
                     JSONArray localFiles;
 
+                    // adiciona todos os arquivos locais numa lista que, ao final deste processo,
+                    // conterá todos os arquivos fora da intersecção das duas listas (e que, portanto,
+                    // podem ser apagados)
                     List<String> deleteList = new ArrayList<String>();
                     if (localContent!=null)
                     {
-                        try {
-                            localFiles = localContent.getJSONArray("f");
-                            for(int i=0;i<localFiles.length();i++)
-                                deleteList.add((String) localFiles.getJSONObject(i).keys().next());
-                        } catch (Exception e)
-                        {
-                            e.printStackTrace();
-                            localFiles = null;
-                        }
+                        localFiles = localContent.getJSONArray("f");
+                        for(int i=0;i<localFiles.length();i++)
+                            deleteList.add((String) localFiles.getJSONObject(i).keys().next());
                     }
                     else
                         localFiles = null;
@@ -268,6 +340,7 @@ public class Main extends Activity {
                                 String localFilename = (String) local.keys().next();
                                 if (localFilename.equals(fileName))
                                 {
+                                    // verifica o CRC de ambos os arquivos (remoto e local)
                                     if (crc.equals(local.getString(localFilename)))
                                     {
                                         shouldDownload = false;
@@ -283,40 +356,36 @@ public class Main extends Activity {
                     }
 
                     mProgressDialog.setIndeterminate(false);
+                    // a barra de progresso será mensuara através de tarefas (apagar os arquivos desnecessários,
+                    // e descarregar aqueles que foram atualizados ou novos)
                     mProgressDialog.setMax(deleteList.size()+downloadList.size());
                     mProgressDialog.setProgress(0);
 
                     int p=0;
                     publishProgress(0);
 
+
                     for (int i=0;i<deleteList.size();i++) {
-                        Log.d("carr3r", "deleting -> " + deleteList.get(i));
-                        Utils.deleteFile(getApplicationContext(), deleteList.get(i)+".json");
+                        Utils.deleteFile(context, deleteList.get(i)+".json");
                         publishProgress(++p);
                     }
 
                     for (int i=0;i<downloadList.size();i++) {
-
-                        Log.d("carr3r", "downlading -> " + downloadList.get(i));
-
-                        String remoteContent = Utils.decompress(Utils.downloadRemote(new URL(GZ_DIR + downloadList.get(i) + ".json.gz")));
-                        if (remoteContent!=null)
-                            Utils.saveFile(getApplicationContext(), downloadList.get(i)+".json", remoteContent);
-
+                        String remoteContent = new String(Utils.decompress(Utils.downloadRemote(new URL(WebIndex.GZ_DIR + downloadList.get(i) + ".json.gz"))));
+                        if (remoteContent!=null) {
+                            Utils.saveFile(context, downloadList.get(i) + ".json", remoteContent);
+                        }
                         publishProgress(++p);
                     }
 
-                    Utils.saveFile(getApplicationContext(), "checksum.json", fileContents);
+                    Utils.saveFile(context, "checksum.json", fileContents);
                     return true;
                 }
                 catch(Exception e)
                 {
-                    e.printStackTrace();
                     return false;
                 }
             }
-            else
-                Log.d("carr3r", "problem loading remote checksum file");
 
             return true;
         }
@@ -324,8 +393,17 @@ public class Main extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            // take CPU lock to prevent CPU from going off if the user
-            // presses the power button during download
+
+            // impede que o processador entre em standby quando o usuário pressiona o botão de desligar
+            // se já existir um lock, não precisamos criar um
+            if (mWakeLock==null)
+            {
+                PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+                mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                        getClass().getName());
+                mWakeLock.acquire();
+            }
+
             mProgressDialog.show();
         }
 
@@ -333,7 +411,6 @@ public class Main extends Activity {
         protected void onProgressUpdate(Integer... progress) {
             super.onProgressUpdate(progress);
             mProgressDialog.setProgress(progress[0]);
-            // if we get here, length is known, now set indeterminate to false
         }
 
         @Override
@@ -343,11 +420,118 @@ public class Main extends Activity {
                 mWakeLock.release();
 
             mProgressDialog.dismiss();
+
             if (!result)
-                Toast.makeText(context, "Download error: " + result, Toast.LENGTH_LONG).show();
-            else
-                Toast.makeText(context, "File downloaded", Toast.LENGTH_SHORT).show();
+            {
+                if (toast == null)
+                {
+                    toast = Toast.makeText(context, getString(R.string.error_during_update), Toast.LENGTH_LONG);
+                    fireLongToast();
+                }
+            }
+            else {
+                Toast.makeText(context, getString(R.string.database_updated), Toast.LENGTH_SHORT).show();
+            }
+
         }
+    }
+
+
+    private class DownloadTask extends AsyncTask<String, Integer, Boolean> {
+
+        private Context context;
+
+        public DownloadTask(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... sUrl) {
+            final int BUFFER_SIZE = 32;
+
+            try
+            {
+                // baixa apenas um arquivo de uma só vez
+                URL url = new URL(sUrl[0]);
+
+                URLConnection conn = url.openConnection();
+                int contentLength = conn.getContentLength();
+                int contentRead = 0;
+
+                mProgressDialog.setIndeterminate(false);
+                mProgressDialog.setMax(contentLength/1024);
+
+                DataInputStream stream = new DataInputStream(url.openStream());
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+                byte[] buffer = new byte[BUFFER_SIZE];
+                while(contentRead < contentLength)
+                {
+                    int buffSize = stream.read(buffer, 0, BUFFER_SIZE);
+                    contentRead += buffSize;
+                    publishProgress(contentRead);
+                    out.write(buffer, 0, buffSize);
+                }
+
+                stream.close();
+
+                return Utils.unTar(context, Utils.decompress(out.toByteArray() ));
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            // impede que o processador entre em standby quando o usuário pressiona o botão de desligar
+            // se já existir um lock, não precisamos criar um
+            if (mWakeLock==null)
+            {
+                PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+                mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                        getClass().getName());
+                mWakeLock.acquire();
+            }
+            mProgressDialog.show();
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... progress) {
+            super.onProgressUpdate(progress);
+            mProgressDialog.setProgress(progress[0]/1024);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            mWakeLock.release();
+            mProgressDialog.dismiss();
+            if (!result)
+            {
+                toast = Toast.makeText(context, getString(R.string.error_during_download), Toast.LENGTH_LONG);
+                fireLongToast();
+            }
+            else
+            {
+                try
+                {
+                    JSONObject local = new JSONObject(Utils.loadFile(context, "checksum.json"));
+                    // atualiza o catálogo local com data/hora da "atualização"
+                    local.put("u", Utils.formatedDate());
+                    Utils.saveFile(context, "checksum.json", local);
+                } catch (Exception e)
+                {
+
+                }
+
+                Toast.makeText(context, getString(R.string.database_updated), Toast.LENGTH_SHORT).show();
+                hasDB=true;
+            }
+        }
+
     }
 
 }

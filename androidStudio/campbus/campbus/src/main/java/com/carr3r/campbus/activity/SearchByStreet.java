@@ -98,19 +98,8 @@ public class SearchByStreet extends Activity {
             }
         });
 
-        // advertising pra pagar minha cerveja ;)
-        AdView adView = (AdView) this.findViewById(R.id.search_by_street_adview);
-        AdRequest adRequest;
-        if (Definitions.DEBUG)
-            adRequest = new AdRequest.Builder()
-                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)// This is for emulators
-                    .addTestDevice("2EAB96D84FE62876379A9C030AA6A0AC") // Nexus 5
-                    .build();
-        else
-            adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
-
-
+        // advertising pra cerveja ;)
+        Utils.startAd(findViewById(R.id.search_by_street_adview));
     }
 
     public void onBackPressed() {
@@ -126,8 +115,8 @@ public class SearchByStreet extends Activity {
         protected void onPreExecute() {
 
             super.onPreExecute();
-            dialog = ProgressDialog.show(SearchByStreet.this, "Aguarde",
-                    "Procurando registros...");
+            dialog = ProgressDialog.show(SearchByStreet.this, getString(R.string.wait),
+                    getString(R.string.search_records));
 
         }
 
@@ -149,10 +138,7 @@ public class SearchByStreet extends Activity {
                 try {
                     JSONArray item = jsonStreets.getJSONArray(key);
                     streetLines.put(key, item.toString());
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                } catch (JSONException e) { }
 
                 boolean found = false;
 
